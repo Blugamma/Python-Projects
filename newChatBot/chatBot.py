@@ -1,6 +1,7 @@
 ###ChatBot###
 import random
 import wikipedia
+
 with open('stopWords.txt', 'r') as doc:
     stopWords = doc.read().split("\n")
     stopWords.append("name")
@@ -26,9 +27,9 @@ def calculateInput(input,output,useName):
         if word.lower() not in stopWords:
             if useName: print("Blubot: " + output + " " + word)
             else: print("Blubot: " + output)
-            
+         
 calculateInput(response,random_welcoming,True)
-welcoming_response = raw_input(random_question)
+welcoming_response = raw_input(random_question) 
 if welcoming_response.lower() in positiveAns:
     calculateInput(welcoming_response,random_positiveRes,False)
 if welcoming_response.lower() in negativeAns:
@@ -36,4 +37,11 @@ if welcoming_response.lower() in negativeAns:
     question1_response = raw_input("BluBot: How can I help?")
     if question1_response.lower() in tellAJoke:
         calculateInput(question1_response,jokeRes,False)
-print wikipedia.summary("Albert Einstein", sentences=2)
+if welcoming_response.lower() not in positiveAns and negativeAns:
+    print("BluBot: Please try a different answer! Please try again!")
+    welcoming_response = raw_input(random_question)
+while True:
+    userSuggestion = raw_input("BluBot: What would you like to ask me?")
+    lastWord = userSuggestion.split(' ', -1)[-1]
+    wikipediaResponse = wikipedia.summary(lastWord, sentences=1)
+    print("Do you want to talk about " + wikipediaResponse)
